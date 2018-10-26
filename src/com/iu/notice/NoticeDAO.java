@@ -10,6 +10,7 @@ import com.iu.board.BoardDAO;
 import com.iu.board.BoardDTO;
 import com.iu.page.RowNumber;
 import com.iu.util.DBConnector;
+import com.oreilly.servlet.MultipartRequest;
 
 public class NoticeDAO implements BoardDAO{
 
@@ -47,19 +48,59 @@ public class NoticeDAO implements BoardDAO{
 
 	@Override
 	public BoardDTO selectOne(int num) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con = DBConnector.getConnect();
+		String sql = "select * from notice where num=?";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setInt(1, num);
+		NoticeDTO noticeDTO=null;
+		ResultSet rs = st.executeQuery();
+		
+		if(rs.next()) {
+			noticeDTO = new NoticeDTO();
+			noticeDTO.setNum(rs.getInt("num"));
+			noticeDTO.setTitle(rs.getString("title"));
+			noticeDTO.setContents(rs.getString("contents"));
+			noticeDTO.setWriter(rs.getString("writer"));
+			noticeDTO.setReg_date(rs.getDate("reg_date"));
+			noticeDTO.setHit(rs.getInt("hit"));
+		}
+		DBConnector.disConnect(rs, st, con);
+		return noticeDTO;
 	}
 
+	//seq 
+	public int getNum() throws Exception {
+		Connection con = DBConnector.getConnect();
+		String sql="select notice_seq.nextval from dual";
+		PreparedStatement st = con.prepareStatement(sql);
+		ResultSet rs = st.executeQuery();
+		rs.next();
+		int num = rs.getInt(1);
+		DBConnector.disConnect(rs, st, con);
+		return num;
+	}
+	
+	
 	@Override
 	public int insert(BoardDTO boardDTO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection con = DBConnector.getConnect();
+		String sql = "insert into notice values(?,?,?,?,sysdate,0)";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setInt(1, boardDTO.getNum());
+		st.setString(2, boardDTO.getTitle());
+		st.setString(3, boardDTO.getContents());
+		st.setString(4, boardDTO.getWriter());
+		
+		int result = st.executeUpdate();
+		DBConnector.disConnect(st, con);
+		
+		return result;
 	}
 
 	@Override
 	public int update(BoardDTO boardDTO) throws Exception {
-		// TODO Auto-generated method stub
+		
+		
 		return 0;
 	}
 
