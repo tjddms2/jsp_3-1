@@ -2,15 +2,16 @@ package com.iu.page;
 
 public class RowNumber {
 	
-	private int starRow;
+	private int startRow;
 	private int lastRow;
 	private Search search;
 	
-	public int getStarRow() {
-		return starRow;
+	
+	public int getStartRow() {
+		return startRow;
 	}
-	public void setStarRow(int starRow) {
-		this.starRow = starRow;
+	public void setStartRow(int startRow) {
+		this.startRow = startRow;
 	}
 	public int getLastRow() {
 		return lastRow;
