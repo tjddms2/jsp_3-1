@@ -10,20 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.iu.action.ActionFoward;
-import com.iu.notice.NoticeService;
+import com.iu.qna.QnaService;
 
 /**
- * Servlet implementation class NoticeController
+ * Servlet implementation class QnaController
  */
-@WebServlet("/NoticeController")
-public class NoticeController extends HttpServlet {
+@WebServlet("/QnaController")
+public class QnaController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private QnaService qnaService;   
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeController() {
+    public QnaController() {
         super();
+        qnaService = new QnaService();
         // TODO Auto-generated constructor stub
     }
 
@@ -34,20 +35,15 @@ public class NoticeController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		//  /notice/notice***.do
-		//  /notice***.do
 		String command = request.getPathInfo();
 		
-		//foward, redirect
-		ActionFoward actionFoward=null;
-		NoticeService noticeService = new NoticeService();
+		ActionFoward actionFoward = null;
 		
-		if(command.equals("/noticeList.do")) {
-			actionFoward = noticeService.selectList(request, response);
-		}else if(command.equals("/noticeSelectOne.do")) {
-			actionFoward = noticeService.selectOne(request, response);
+		if(command.equals("/qnaList.do")) {
+			actionFoward = qnaService.selectList(request, response);
+		}else if(command.equals("/qnaSelectOne.do")) {
+			actionFoward= qnaService.selectOne(request, response);
 		}
-		
 		
 		
 		if(actionFoward.isCheck()) {
