@@ -47,9 +47,9 @@ public class NoticeService implements BoardService{
 			try {
 				MultipartRequest multi = new MultipartRequest(request, save, maxSize, "UTF-8", new DefaultFileRenamePolicy());
 				NoticeDTO noticeDTO = new NoticeDTO();
-				noticeDTO.setTitle(request.getParameter("title"));
-				noticeDTO.setWriter(request.getParameter("writer"));
-				noticeDTO.setContents(request.getParameter("contents"));
+				noticeDTO.setTitle(multi.getParameter("title"));
+				noticeDTO.setWriter(multi.getParameter("writer"));
+				noticeDTO.setContents(multi.getParameter("contents"));
 				noticeDTO.setNum(noticeDAO.getNum());
 				int result = noticeDAO.insert(noticeDTO);
 				if(result>0) {
@@ -67,6 +67,12 @@ public class NoticeService implements BoardService{
 					}
 					
 					message ="Success";
+					actionFoward.setCheck(true);
+					actionFoward.setPath("../WEB-INF/view/common/result.jsp");
+				}else {
+					actionFoward.setCheck(true);
+					actionFoward.setPath("../WEB-INF/view/common/result.jsp");
+					
 				}
 				
 				
@@ -76,8 +82,7 @@ public class NoticeService implements BoardService{
 			}
 			request.setAttribute("message", message);
 			request.setAttribute("path", path);
-			actionFoward.setCheck(true);
-			actionFoward.setPath("../WEB-INF/view/common/result.jsp");
+			
 			
 			
 		}else {
