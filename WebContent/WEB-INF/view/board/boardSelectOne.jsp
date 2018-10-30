@@ -7,7 +7,8 @@
     pageEncoding="UTF-8"%>
 <%
 	BoardDTO boardDTO = (BoardDTO)request.getAttribute("dto");
-	List<FileDTO> ar = (List<FileDTO>)request.getAttribute("files");
+	//List<FileDTO> ar = (List<FileDTO>)request.getAttribute("files");
+	String board = (String)request.getAttribute("board");
 %>    
 <!DOCTYPE html>
 <html>
@@ -21,18 +22,20 @@
 	
 	<div class="container-fluid">
 		<div class="row">
+			<h1><%=board %> View</h1>
+		</div>
+	
+		<div class="row">
 			<h1>TITLE : <%= boardDTO.getTitle() %> </h1>
 			<h1>WRITER : <%= boardDTO.getWriter() %> </h1>
 			<h1>Contents : <%= boardDTO.getContents() %></h1>
-			<% for(FileDTO file : ar){ %>
-				<h3><a href="../upload/<%= file.getFname()%>"><%=file.getOname() %> </a></h3>
-			<%} %>
+			
 		</div>	
 	</div>
 	<div>
-		<a href="./noticeList.do">List</a>
-		<a href="./noticeUpdateForm.do">Update</a>
-		<a href="./noticeDelete.do">Delete</a>
+		<a href="./<%=board%>List.do">List</a>
+		<a href="./<%=board%>UpdateForm.do">Update</a>
+		<a href="./<%=board%>Delete.do">Delete</a>
 	</div>
 	
 <jsp:include page="../../../temp/footer.jsp"></jsp:include>
