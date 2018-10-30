@@ -7,17 +7,42 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.iu.action.ActionFoward;
 import com.iu.board.BoardDTO;
+import com.iu.board.BoardService;
 import com.iu.page.MakePager;
 import com.iu.page.Pager;
 import com.iu.page.RowNumber;
 
-public class QnaService {
+public class QnaService implements BoardService{
 	private QnaDAO qnaDAO;
 	
 	public QnaService() {
 		qnaDAO = new QnaDAO();
 	}
 	
+	@Override
+	public ActionFoward insert(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public ActionFoward update(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public ActionFoward delete(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 	public ActionFoward selectOne(HttpServletRequest request, HttpServletResponse response) {
 		ActionFoward actionFoward = new ActionFoward();
 		actionFoward.setCheck(false);
@@ -28,8 +53,8 @@ public class QnaService {
 			boardDTO = qnaDAO.selectOne(num);
 			
 			request.setAttribute("dto", boardDTO);
-			
-			actionFoward.setPath("../WEB-INF/qna/qnaSelectOne.jsp");
+			request.setAttribute("board", "qna");
+			actionFoward.setPath("../WEB-INF/view/board/qnaSelectOne.jsp");
 			actionFoward.setCheck(true);
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -63,7 +88,8 @@ public class QnaService {
 			Pager pager = mk.makePage(totalCount);
 			request.setAttribute("list", ar);
 			request.setAttribute("pager", pager);
-			actionFoward.setPath("../WEB-INF/qna/qnaList.jsp");
+			request.setAttribute("board", "qna");
+			actionFoward.setPath("../WEB-INF/view/board/boardList.jsp");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
