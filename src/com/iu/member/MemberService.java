@@ -42,11 +42,11 @@ public class MemberService {
 			memberDTO.setEmail(multi.getParameter("email"));
 			memberDTO.setKind(multi.getParameter("kind"));
 			memberDTO.setClassMate(multi.getParameter("classMate"));
-			int result = memberDAO.join(memberDTO);
 			/*
-			 *  파일의 정보를 DB에 insert  
+			 *  파일의 정보를 DTO에 추가  
 			 * 
 			 */
+			int result = memberDAO.join(memberDTO);
 			if(result>0) {
 				request.setAttribute("message", "Join Success");
 				request.setAttribute("path", "../index.jsp");
