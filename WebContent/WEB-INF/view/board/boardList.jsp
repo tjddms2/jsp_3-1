@@ -75,7 +75,7 @@
 	  <ul class="pagination">
 	  	<li><a href="./${board} }List.do?curPage=1"><span class="glyphicon glyphicon-backward"></span></a></li>
 	  	
-	  	<c:if test="${pager.curBlock>1}">
+	  	<c:if test="${pager.curBlock gt 1}">
 	  		<li><a href="./${board}List.do?curPage=${pager.startNum-1}"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
 	  	</c:if>
 	  	
@@ -84,7 +84,7 @@
 	  	</c:forEach>
 	  	
 	   	
-	   	<c:if test="${pager.curBlock < pager.totalBlock}">
+	   	<c:if test="${pager.curBlock lt pager.totalBlock}">
 	   		<li><a href="./${board}List.do?curPage=${pager.lastNum+1}"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
 	   	</c:if>
 	   	

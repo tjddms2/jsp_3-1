@@ -178,9 +178,9 @@ public class NoticeService implements BoardService{
 		ActionFoward actionFoward = new ActionFoward();
 		try {
 			int num = Integer.parseInt(request.getParameter("num"));
+			FileDAO fileDAO = new FileDAO();
+			fileDAO.deleteAll(num);
 			num = noticeDAO.delete(num);
-			
-			
 			
 			if(num>0) {
 				request.setAttribute("message", "Delete Success");

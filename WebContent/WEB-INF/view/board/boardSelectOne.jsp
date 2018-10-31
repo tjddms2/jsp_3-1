@@ -5,7 +5,7 @@
 <%@page import="com.iu.notice.NoticeDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +32,10 @@
 		<a href="./${requestScope.board}List.do">List</a>
 		<a href="./${requestScope.board}Update.do?num=${dto.num}">Update</a>
 		<a href="./${requestScope.board}Delete.do?num=${dto.num}">Delete</a>
+		<c:if test="${board ne 'notice'}">
+			<a href="./${board}Reply.do">Reply</a>
+		</c:if>
+		<%-- <c:if test="${not empty board}"></c:if> --%>
 	</div>
 	
 <jsp:include page="../../../temp/footer.jsp"></jsp:include>
