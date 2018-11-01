@@ -7,6 +7,21 @@ import java.sql.ResultSet;
 import com.iu.util.DBConnector;
 
 public class MemberDAO {
+	//updat
+	public int update(MemberDTO memberDTO) throws Exception{
+		Connection con = DBConnector.getConnect();
+		String sql ="update member set pw=?, name=?, email=?, fname=?, oname=? where id=?";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, memberDTO.getPw());
+		st.setString(2, memberDTO.getName());
+		st.setString(3, memberDTO.getEmail());
+		st.setString(4, memberDTO.getFname());
+		st.setString(5, memberDTO.getOname());
+		st.setString(6, memberDTO.getId());
+		int result = st.executeUpdate();
+		DBConnector.disConnect(st, con);
+		return result;
+	}
 	
 	//delete
 	public int delete(MemberDTO memberDTO) throws Exception{

@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import com.iu.action.ActionFoward;
 import com.oreilly.servlet.MultipartRequest;
@@ -17,6 +18,69 @@ public class MemberService {
 	public MemberService() {
 		memberDAO = new MemberDAO();
 	}
+	
+	//update
+	public ActionFoward update(HttpServletRequest request, HttpServletResponse response) {
+		ActionFoward actionFoward = new ActionFoward();
+		String method = request.getMethod();
+		if(method.equals("POST")) {
+		//POST
+			int max = 1024*1024*10;
+			String path = request.getServletContext().getRealPath("upload");
+			File file = new File(path);
+			if(!file.exists()) {
+				file.mkdirs();
+			}
+			
+			String message="Update Fail";
+			
+			try {
+				MultipartRequest multi = new MultipartRequest(request, path, max, "UTF-8", new DefaultFileRenamePolicy());
+				MemberDTO memberDTO = new MemberDTO();
+				MemberDTO sessionDTO = (MemberDTO)request.getSession().getAttribute("member");
+				memberDTO.setId(multi.getParameter("id"));
+				memberDTO.setPw(multi.getParameter("pw"));
+				memberDTO.setName(multi.getParameter("name"));
+				memberDTO.setEmail(multi.getParameter("email"));
+				memberDTO.setFname(sessionDTO.getFname());
+				memberDTO.setOname(sessionDTO.getOname());
+				memberDTO.setKind(sessionDTO.getKind());
+				memberDTO.setClassMate(sessionDTO.getClassMate());
+				file = multi.getFile("f1");
+				if(file != null) {
+					file = new File(path, memberDTO.getFname());
+					file.delete();
+					memberDTO.setFname(multi.getFilesystemName("f1"));
+					memberDTO.setOname(multi.getOriginalFileName("f1"));
+				}
+				
+				int result = memberDAO.update(memberDTO);
+				
+				if(result>0) {
+					request.getSession().setAttribute("member", memberDTO);
+					message="Update Success";
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			request.setAttribute("message", message);
+			request.setAttribute("path", "./memberMypage.do");
+			
+			actionFoward.setCheck(true);
+			actionFoward.setPath("../WEB-INF/view/common/result.jsp");
+			
+			
+		}else {	
+		//GET
+			actionFoward.setCheck(true);
+			actionFoward.setPath("../WEB-INF/view/member/memberUpdate.jsp");
+		}
+		return actionFoward;
+	}
+	
 	
 	//delete
 	public ActionFoward delete(HttpServletRequest request, HttpServletResponse response) {
