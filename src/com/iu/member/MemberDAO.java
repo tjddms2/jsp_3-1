@@ -7,6 +7,18 @@ import java.sql.ResultSet;
 import com.iu.util.DBConnector;
 
 public class MemberDAO {
+	
+	//delete
+	public int delete(MemberDTO memberDTO) throws Exception{
+		Connection con = DBConnector.getConnect();
+		String sql ="delete member where id=?";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, memberDTO.getId());
+		int result = st.executeUpdate();
+		DBConnector.disConnect(st, con);
+		return result;
+	}
+	
 	//로그인
 	public MemberDTO login(MemberDTO memberDTO) throws Exception {
 		System.out.println(memberDTO.getId());

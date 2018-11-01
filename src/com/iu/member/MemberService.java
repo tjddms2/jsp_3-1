@@ -18,6 +18,35 @@ public class MemberService {
 		memberDAO = new MemberDAO();
 	}
 	
+	//delete
+	public ActionFoward delete(HttpServletRequest request, HttpServletResponse response) {
+		ActionFoward actionFoward = new ActionFoward();
+		MemberDTO memberDTO=null;
+		HttpSession session = request.getSession();
+		memberDTO = (MemberDTO)session.getAttribute("member");
+		String message="Delete Fail";
+		
+		try {
+			int result = memberDAO.delete(memberDTO);
+			if(result>0) {
+				message = "Delete Success";
+				String path=session.getServletContext().getRealPath("upload");
+				File file = new File(path, memberDTO.getFname());
+				file.delete();
+				session.invalidate();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		request.setAttribute("message", message);
+		request.setAttribute("path", "../index.jsp");
+		actionFoward.setCheck(true);
+		actionFoward.setPath("../WEB-INF/view/common/result.jsp");
+		
+		return actionFoward;
+	}
+	
 	//myPage
 	public ActionFoward myPage(HttpServletRequest request, HttpServletResponse response) {
 		ActionFoward actionFoward = new ActionFoward();
@@ -89,6 +118,7 @@ public class MemberService {
 		
 		int max=1024*1024*10;
 		String path = request.getServletContext().getRealPath("upload");
+		System.out.println(path);
 		File file = new File(path);
 		if(!file.exists()) {
 			file.mkdirs();
