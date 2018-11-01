@@ -18,6 +18,18 @@ public class MemberService {
 		memberDAO = new MemberDAO();
 	}
 	
+	//logout
+	public ActionFoward logout(HttpServletRequest request, HttpServletResponse response) {
+		ActionFoward actionFoward = new ActionFoward();
+		
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		actionFoward.setCheck(false);
+		actionFoward.setPath("../index.jsp");
+		return actionFoward;
+	}
+	
 	//login
 	public ActionFoward login(HttpServletRequest request, HttpServletResponse response) {
 		ActionFoward actionFoward = new ActionFoward();
