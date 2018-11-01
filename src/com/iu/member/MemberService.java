@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.iu.action.ActionFoward;
 import com.oreilly.servlet.MultipartRequest;
@@ -16,6 +17,46 @@ public class MemberService {
 	public MemberService() {
 		memberDAO = new MemberDAO();
 	}
+	
+	//login
+	public ActionFoward login(HttpServletRequest request, HttpServletResponse response) {
+		ActionFoward actionFoward = new ActionFoward();
+		
+		String method=request.getMethod();
+		
+		if(method.equals("POST")) {
+		
+			MemberDTO memberDTO = new MemberDTO();
+			memberDTO.setId(request.getParameter("id"));
+			memberDTO.setPw(request.getParameter("pw"));
+			memberDTO.setKind(request.getParameter("kind"));
+			try {
+				memberDTO = memberDAO.login(memberDTO);
+			} catch (Exception e) {
+				memberDTO = null;
+				e.printStackTrace();
+			}
+			
+			if(memberDTO != null) {
+				HttpSession session = request.getSession();
+				session.setAttribute("member", memberDTO);
+				actionFoward.setCheck(false);
+				actionFoward.setPath("../index.jsp");
+			}else {
+				request.setAttribute("message", "Login Fail");
+				actionFoward.setCheck(true);
+				actionFoward.setPath("../WEB-INF/view/member/memberLogin.jsp");
+			}
+			
+		}else {
+			//GET
+			actionFoward.setCheck(true);
+			actionFoward.setPath("../WEB-INF/view/member/memberLogin.jsp");
+			
+		}
+		return actionFoward;
+	}
+	
 	
 	//join
 	public ActionFoward join(HttpServletRequest request, HttpServletResponse response) {
@@ -42,6 +83,8 @@ public class MemberService {
 			memberDTO.setEmail(multi.getParameter("email"));
 			memberDTO.setKind(multi.getParameter("kind"));
 			memberDTO.setClassMate(multi.getParameter("classMate"));
+			memberDTO.setFname(multi.getFilesystemName("f1"));
+			memberDTO.setOname(multi.getOriginalFileName("f1"));
 			/*
 			 *  파일의 정보를 DTO에 추가  
 			 * 

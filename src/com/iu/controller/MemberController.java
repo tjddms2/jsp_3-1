@@ -44,6 +44,8 @@ public class MemberController extends HttpServlet {
 			actionFoward = new ActionFoward();
 			actionFoward.setCheck(true);
 			actionFoward.setPath("../WEB-INF/view/member/memberList.jsp");
+		}else if(command.equals("/memberLogin.do")) {
+			actionFoward = memberService.login(request, response);
 		}
 		
 		
