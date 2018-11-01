@@ -18,6 +18,16 @@ public class MemberService {
 		memberDAO = new MemberDAO();
 	}
 	
+	//myPage
+	public ActionFoward myPage(HttpServletRequest request, HttpServletResponse response) {
+		ActionFoward actionFoward = new ActionFoward();
+		
+		actionFoward.setCheck(true);
+		actionFoward.setPath("../WEB-INF/view/member/memberMypage.jsp");
+		
+		return actionFoward;
+	}
+	
 	//logout
 	public ActionFoward logout(HttpServletRequest request, HttpServletResponse response) {
 		ActionFoward actionFoward = new ActionFoward();
