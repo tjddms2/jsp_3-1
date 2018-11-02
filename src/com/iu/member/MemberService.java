@@ -19,6 +19,28 @@ public class MemberService {
 		memberDAO = new MemberDAO();
 	}
 	
+	public ActionFoward checkId(HttpServletRequest request, HttpServletResponse response) {
+		ActionFoward actionFoward = new ActionFoward();
+		
+		String id = request.getParameter("id");
+		boolean check=true;
+		String result="1";//사용가능, no
+		
+		try {
+			check = memberDAO.checkId(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(check) {
+			result="2";
+		}
+		request.setAttribute("result", result);
+		actionFoward.setCheck(true);
+		actionFoward.setPath("../WEB-INF/view/member/memberCheckId.jsp");
+		return actionFoward;
+	}
+	
 	//update
 	public ActionFoward update(HttpServletRequest request, HttpServletResponse response) {
 		ActionFoward actionFoward = new ActionFoward();
