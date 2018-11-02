@@ -99,14 +99,21 @@
 
 </div>
 
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-1">
-				<a href="./${board}Write.do" class="btn btn-primary">Write</a>
-			</div>
+	<c:choose>
+		<c:when test="${board eq 'notice'}">
+			<c:if test="${not empty member and member.kind eq 'T'}">
+				<c:import url="../../../temp/writeButton.jsp"></c:import>
+			</c:if>
+		
+		</c:when>
+		<c:otherwise>
+			<c:if test="${not empty member}">
+				<c:import url="../../../temp/writeButton.jsp"></c:import>
+			</c:if>
+		</c:otherwise>
+	
+	</c:choose>
 
-		</div>
-	</div>
 
 
 	<jsp:include page="../../../temp/footer.jsp"></jsp:include>
