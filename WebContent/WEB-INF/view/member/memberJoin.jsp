@@ -10,7 +10,8 @@
 <script type="text/javascript">
 	$(function() {
 		$("#btn").click(function() {
-			var id=$("#id").val();
+			//var id=$("#id").val();
+			var id=document.frm.id.value;
 			window.open("./memberCheckId.do?id="+id, "", "width=300, height=200, top=300, left=500");
 		});
 	});
@@ -20,7 +21,7 @@
 <c:import url="../../../temp/header.jsp" />
 	<div class="container-fluid">
 		<div class="row">
-			<form action="./memberJoin.do" method="post" enctype="multipart/form-data">
+			<form name="frm" action="./memberJoin.do" method="post" enctype="multipart/form-data">
 		    <div class="form-group">
 		      <label for="title">ID:</label>
 		      <input type="text" class="form-control" id="id" placeholder="Enter Title" name="id">
